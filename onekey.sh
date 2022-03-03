@@ -95,7 +95,7 @@ apt-get -yqq install git lsb-release dos2unix screen
 if [[ -d /etc/QuickBox ]]; then
     rm -rf /etc/QuickBox
 fi
-URL="https://github.com/amefs/quickbox-lite.git"
+URL="https://gh.api.99988866.xyz/https://github.com/amefs/quickbox-lite.git"
 # shellcheck disable=SC2086
 git clone --recursive ${branch} "${URL}" /etc/QuickBox
 dos2unix /etc/QuickBox/setup.sh
