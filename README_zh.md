@@ -4,7 +4,7 @@
 
 # QuickBox-Lite
 
-[![Project](https://img.shields.io/badge/Project-English%20Ver-green?logo=git&style=for-the-badge)](https://github.com/amefs/quickbox-lite/blob/master/README.md)    [![DOC](https://img.shields.io/badge/Doc-点击此处阅读文档-1F8ACB?logo=read-the-docs&style=for-the-badge)](https://cn.wiki.ptbox.dev/)
+[![Project](https://img.shields.io/badge/Project-English%20Ver-green?logo=git&style=for-the-badge)](https://github.com/amefs/quickbox-lite/blob/master/README.md)    [![DOC](https://img.shields.io/badge/Doc-点击此处阅读文档-1F8ACB?logo=read-the-docs&style=for-the-badge)](https://wiki.ptbox.dev/)
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## 当前版本
 
-![Version](https://img.shields.io/badge/version-1.5.2-orange?style=flat-square)![GNU v3.0 License](https://img.shields.io/badge/license-GNU%20v3.0%20License-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.5.5-orange?style=flat-square)![GNU v3.0 License](https://img.shields.io/badge/license-GNU%20v3.0%20License-blue.svg?style=flat-square)
 
 在执行 1.3.2 -> 1.3.3 的升级时，建议使用 SSH 运行  `box update quickbox` 进行升级操作，且需要执行两次以完成后台服务升级。若使用 WebUI 也需要执行两次。
 
@@ -44,7 +44,7 @@
 
 系统支持 (仅支持 amd64):
 
-![Ubuntu20.04](https://img.shields.io/badge/Ubuntu%2020.04-passing-brightgreen.svg?style=flat-square)![Ubuntu18.04](https://img.shields.io/badge/Ubuntu%2018.04-passing-brightgreen.svg?style=flat-square)![Ubuntu16.04](https://img.shields.io/badge/Ubuntu%2016.04-EOL-red.svg?style=flat-square)
+![Ubuntu22.04](https://img.shields.io/badge/Ubuntu%2022.04-passing-brightgreen.svg?style=flat-square)![Ubuntu20.04](https://img.shields.io/badge/Ubuntu%2020.04-passing-brightgreen.svg?style=flat-square)![Ubuntu18.04](https://img.shields.io/badge/Ubuntu%2018.04-passing-brightgreen.svg?style=flat-square)![Ubuntu16.04](https://img.shields.io/badge/Ubuntu%2016.04-EOL-red.svg?style=flat-square)
 
 ![Debian11](https://img.shields.io/badge/Debian%2011-passing-brightgreen.svg?style=flat-square)![Debian10](https://img.shields.io/badge/Debian%2010-passing-brightgreen.svg?style=flat-square)![Debian9](https://img.shields.io/badge/Debian%209-discontinue-orange.svg?style=flat-square)
 
@@ -129,4 +129,4 @@ bash <(wget -qO- https://git.io/qbox-lite -o /dev/null) -u demouser -p demo12345
 这段代码的意思是: 用户名为 demouser，密码为 demo123456，ssh 端口修改为1234，安装 BBR，deluge，mktorrent，linuxrar，使用 Cloudflare 的预编译包镜像源，hostname 修改为 vmserver，安装完成后自动重启。
 ## 对 QuickBox Lite 有疑问
 
-如果你对 QuickBox Lite 的功能仍然有疑问或者需要汇报 Bug，请务必先阅读 [Wiki](https://cn.wiki.ptbox.dev)。如果 Wiki 描述仍然不能解决你的疑惑，请尝试在 [issue](https://github.com/amefs/quickbox-lite/issues/new) 中提交你的问题，我会尽力解决这些问题。
+如果你对 QuickBox Lite 的功能仍然有疑问或者需要汇报 Bug，请务必先阅读 [Wiki](https://wiki.ptbox.dev)。如果 Wiki 描述仍然不能解决你的疑惑，请尝试在 [issue](https://github.com/amefs/quickbox-lite/issues/new) 中提交你的问题，我会尽力解决这些问题。

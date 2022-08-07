@@ -4,7 +4,7 @@
 #
 # GitHub:   https://github.com/amefs/quickbox-lite
 # Author:   Amefs
-# Current version:  v1.5.2
+# Current version:  v1.5.5
 # URL:
 # Original Repo:    https://github.com/QuickBox/QB
 # Credits to:       QuickBox.io
@@ -86,10 +86,10 @@ APP_WEB_PORT_HIGH="15200"
 
 APP_LOCK=.$APP_NAME.lock
 OUTTO=/srv/dashboard/db/output.log
-qbitversion_default=4.2.5
-libtversion_default=1.1.14
+qbitversion_default=4.3.9
+libtversion_default=1.2.14
 cdn=$(cat /install/.cdn.lock)
-use_static=false
+use_static=0
 
 BRANCH_LT="https://github.com/arvidn/libtorrent.git"
 BRANCH_QBIT="https://github.com/qbittorrent/qBittorrent.git"
@@ -556,10 +556,10 @@ function _installApp() {
 	fi
 	if ${libt_fallback}; then _warning "Use Libtorrent ${libtversion} for ${qbit_major_version}.x"; fi
 	if (_version_gt ${qbit_major_version} "4.2"); then
-		use_static=true
+		use_static=1
 	fi
 	# Static / Dynamic linking
-	if $use_static; then
+	if [[ ${use_static} == 1 ]]; then
 		_info "Fetching package list..."
 		cd /tmp || exit 1
 		wget -t3 -T20 -q -O file.lst https://qbit-static.ezapi.net/file.lst
@@ -895,7 +895,7 @@ while true; do
 		shift
 		;;
 	-s | --static)
-		use_static=true
+		use_static=1
 		;;
 	--with-cf)
 		cdn="cf"

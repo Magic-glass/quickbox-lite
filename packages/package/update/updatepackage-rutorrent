@@ -4,7 +4,7 @@
 #
 # GitHub:   https://github.com/amefs/quickbox-lite
 # Author:   Amefs
-# Current version:  v1.5.2
+# Current version:  v1.5.5
 # URL:
 # Original Repo:    https://github.com/QuickBox/QB
 # Credits to:       QuickBox.io
@@ -124,12 +124,12 @@ function _updateApp() {
 	cd /srv || exit 1
 	rm -rf /srv/$APP_NAME
 	_execute "git clone --recurse-submodules $BRANCH $APP_NAME"
-	chown -R www-data:www-data /srv/$APP_NAME
 	rm -rf /srv/$APP_NAME/conf/config.php
-
 	latest_release_version=$(curl -s https://api.github.com/repos/Novik/ruTorrent/releases/latest | jq -r ".tag_name")
 	cd /srv/$APP_NAME/ || exit 1
+	_info "Fetching $latest_release_version"
 	_execute "git checkout $latest_release_version"
+	chown -R www-data:www-data /srv/$APP_NAME
 	cd /srv || exit 1
 
 	_info "Setting up plugins... "

@@ -4,7 +4,7 @@
 #
 # GitHub:   https://github.com/amefs/quickbox-lite
 # Author:   Amefs
-# Current version:  v1.5.2
+# Current version:  v1.5.5
 # URL:
 # Original Repo:    https://github.com/QuickBox/QB
 # Credits to:       QuickBox.io
@@ -110,6 +110,8 @@ function _init() {
 		echo -e "XXX\n10\nPreparing scripts... \nXXX"
 		if [[ $DISTRO == Ubuntu && $CODENAME =~ ("bionic"|"focal") ]]; then
 			apt-get -y install git curl wget dos2unix python apt-transport-https software-properties-common dnsutils unzip jq >/dev/null 2>&1
+		elif [[ $DISTRO == Ubuntu && $CODENAME =~ ("jammy") ]]; then
+			apt-get -y install git curl wget dos2unix python3 apt-transport-https software-properties-common dnsutils unzip jq >/dev/null 2>&1
 		elif [[ $DISTRO == Debian ]]; then
 			apt-get -y install git curl wget dos2unix python apt-transport-https software-properties-common gnupg2 ca-certificates dnsutils unzip jq >/dev/null 2>&1
 		fi
@@ -202,7 +204,7 @@ function _checkdistro() {
 		whiptail --title "$ERROR_TITLE_OS" --msgbox "${ERROR_TEXT_DESTRO_1}${DISTRO}${ERROR_TEXT_DESTRO_2}" --ok-button "$BUTTON_OK" 8 72
 		_defaultcolor
 		exit 1
-	elif [[ ! "$CODENAME" =~ ("bionic"|"buster"|"bullseye"|"focal") ]]; then
+	elif [[ ! "$CODENAME" =~ ("bionic"|"buster"|"bullseye"|"focal"|"jammy") ]]; then
 		_errorcolor
 		whiptail --title "$ERROR_TITLE_OS" --msgbox "${ERROR_TEXT_CODENAME_1}${DISTRO}${ERROR_TEXT_CODENAME_2}" --ok-button "$BUTTON_OK" 8 72
 		_defaultcolor
@@ -683,11 +685,20 @@ EOF
 function _chsource() {
 	if [[ $mirror == "" ]]; then mirror="us"; fi
 	if [[ $DISTRO == Debian ]]; then
-		if [[ $mirror == "tuna" ]]; then
-			cp ${local_setup_template}source.list/debian.tuna.template /etc/apt/sources.list
+		if [[ ${CODENAME} == "bullseye" ]]; then
+			if [[ $mirror == "tuna" ]]; then
+				cp ${local_setup_template}source.list/debian.new.tuna.template /etc/apt/sources.list
+			else
+				cp ${local_setup_template}source.list/debian.new.template /etc/apt/sources.list
+				sed -i "s/COUNTRY/${mirror}/g" /etc/apt/sources.list
+			fi
 		else
-			cp ${local_setup_template}source.list/debian.template /etc/apt/sources.list
-			sed -i "s/COUNTRY/${mirror}/g" /etc/apt/sources.list
+			if [[ $mirror == "tuna" ]]; then
+				cp ${local_setup_template}source.list/debian.tuna.template /etc/apt/sources.list
+			else
+				cp ${local_setup_template}source.list/debian.template /etc/apt/sources.list
+				sed -i "s/COUNTRY/${mirror}/g" /etc/apt/sources.list
+			fi
 		fi
 		sed -i "s/RELEASE/${CODENAME}/g" /etc/apt/sources.list
 	else
@@ -743,7 +754,7 @@ DPHP
 
 function _dependency() {
 	_addPHP
-	DEPLIST="sudo at bc build-essential curl wget nginx-extras subversion ssl-cert php7.4-cli php7.4-fpm php7.4 php7.4-dev php7.4-memcached memcached php7.4-curl php7.4-gd php7.4-geoip php7.4-json php7.4-mbstring php7.4-opcache php7.4-xml php7.4-xmlrpc php7.4-zip libfcgi0ldbl mcrypt libmcrypt-dev nano python-dev unzip htop iotop vnstat vnstati automake make openssl net-tools debconf-utils ntp rsync"
+	DEPLIST="sudo at bc build-essential curl wget nginx-extras subversion ssl-cert php7.4-cli php7.4-fpm php7.4 php7.4-dev php7.4-memcached memcached php7.4-curl php7.4-gd php7.4-geoip php7.4-json php7.4-mbstring php7.4-opcache php7.4-xml php7.4-xmlrpc php7.4-zip libfcgi0ldbl mcrypt libmcrypt-dev nano unzip htop iotop vnstat vnstati automake make openssl net-tools debconf-utils ntp rsync screenfetch"
 	for depend in $DEPLIST; do
 		# shellcheck disable=SC2154
 		echo -e "XXX\n12\n$INFO_TEXT_PROGRESS_Extra_2${depend}\nXXX"
@@ -840,17 +851,9 @@ function _insnodejs() {
 }
 
 function _webconsole() {
-	# setup webconsole for dashboard
-	PUBLICIP=$(ip addr show | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}' | cut -d/ -f1 | head -n 1)
-	cat >/etc/profile <<EOF
-echo " Welcome Back !"
-if [[ -f /install/domain.info ]]; then
-	echo "    * Dashboard:  https://\$(cat /install/domain.info)"
-else
-	echo "    * Dashboard:  https://${PUBLICIP}"
-fi
-echo ""
-EOF
+	chmod -x /etc/update-motd.d/*
+	\cp -f ${local_setup_template}motd/01-custom /etc/update-motd.d/01-custom
+	chmod +x /etc/update-motd.d/01-custom
 	# install ttyd and service config
 	ttyd_binary_url=$(curl -s https://api.github.com/repos/tsl0922/ttyd/releases/latest | jq -r ".assets[] | select(.name | contains(\"$(arch)\")) | .browser_download_url") >>"${OUTTO}" 2>&1
 	if wget -qO /usr/local/bin/ttyd "${ttyd_binary_url}"; then
@@ -908,22 +911,14 @@ function _insdashboard() {
 	case $uilang in
 	"en")
 		bash /usr/local/bin/quickbox/system/lang/langSelect-lang_en >/dev/null 2>&1
-		touch /install/.lang_en.lock
 		;;
 	"zh")
-		bash /usr/local/bin/quickbox/system/lang/langSelect-lang_zh-cn >/dev/null 2>&1
-		touch /install/.lang_zh.lock
+		bash /usr/local/bin/quickbox/system/lang/langSelect-lang_zh >/dev/null 2>&1
 		;;
 	*)
 		bash /usr/local/bin/quickbox/system/lang/langSelect-lang_en >/dev/null 2>&1
-		touch /install/.lang_en.lock
 		;;
 	esac
-	if [[ $(vnstat -v | grep -Eo "[0-9.]+" | cut -d . -f1) == "1" ]]; then
-		\cp -f /srv/dashboard/widgets/vnstat-raw.php /srv/dashboard/widgets/vnstat.php
-	elif [[ $(vnstat -v | grep -Eo "[0-9.]+" | cut -d . -f1) == "2" ]]; then
-		\cp -f /srv/dashboard/widgets/vnstat-json.php /srv/dashboard/widgets/vnstat.php
-	fi
 	touch /install/.dashboard.lock
 	cd /srv/dashboard/ws || exit 1
 	npm ci --production >>"${OUTTO}" 2>&1

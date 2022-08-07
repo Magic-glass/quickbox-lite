@@ -1,3 +1,71 @@
+## CHANGELOG v1.5.5
+
+*Changelog update Wednesday, Jul 20, 2022*
+
+### General additions
+
+- support rclone rcd WebUI
+- support WebDAV (Rclone backend)
+
+### Function improved
+
+### Function updated
+
+### Bug fixed
+
+- fix vnstat statistics on dashbaord (by Tautcony)
+- fix wrong memory statistics on dashbaord
+- fix update FlexGet script
+
+---
+
+## CHANGELOG v1.5.4
+
+*Changelog update Friday, May 27, 2022*
+
+### General additions
+
+- support ubuntu 22.04
+
+### Function improved
+
+- better implemented vnstat statistics on dashbaord (by Tautcony)
+- replace outdated `apt-key` with `/etc/apt/trusted.gpg.d/`
+
+### Function updated
+
+- install qBittorrent v4.3.9 by default
+
+### Bug fixed
+
+- add submodule when compiling Netdata
+- wrong permission in ruTorrent install and upgrade script
+
+---
+
+## CHANGELOG v1.5.3
+
+*Changelog update Sunday, Mar 27, 2022*
+
+### General additions
+
+- support Transmission v3.0
+
+### Function improved
+
+- use motd instead of bashrc information
+
+### Function updated
+
+- nfs only run with private IP address by default
+
+### Bug fixed
+
+- fix qBittorrent static script
+- fix switch branch button on dashboard
+
+---
+
 ## CHANGELOG v1.5.2
 
 *Changelog update Saturday, Jan 1, 2022*
